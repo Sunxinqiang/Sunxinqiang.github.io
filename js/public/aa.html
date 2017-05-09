@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>ui-router</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="This is my page">
+    <!-- 导入JS -->
+    <script type="text/javascript" src="angular.js"></script>
+    <script type="text/javascript" src="angular-ui-router.js"></script>
+</head>
+
+<body >
+<div ng-app="myApp">
+    <a ui-sref="home">Home</a>
+    <div ui-view></div> <!-- 视图 -->
+</div>
+</body>
+
+
+<script type="text/javascript">
+    //定义模板，并注入ui-router
+    var app = angular.module('myApp', ['ui.router']);
+    //对服务进行参数初始化，这里配stateProvider服务的视图控制
+    app.config(["$stateProvider",  function ($stateProvider) {
+        $stateProvider
+            .state("home", {
+                url: '/',
+                template:'<div>模板内容......</div>'
+            })
+    }]);
+</script>
+
+</html>
