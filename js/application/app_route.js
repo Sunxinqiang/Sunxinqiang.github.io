@@ -7,7 +7,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider) {
         .state("home", {
             // abstract: true,
             url: "/home",
-            templateUrl: "/html/home.html",
+            templateUrl: "html/home.html",
             // template:"<div>aaaa</div>"
             // controller: 'homeCtrl'
         })
@@ -33,5 +33,5 @@ myApp.config(function ($stateProvider, $urlRouterProvider) {
             url:"/single",
             templateUrl: "module/single/single.html"
         });
-    // $urlRouterProvider.otherwise('/home');
+    $urlRouterProvider.otherwise('/home');
 });
