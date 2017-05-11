@@ -3,7 +3,8 @@
  */
 define(['angular'],function (angular) {
     var myApp = angular.module("myApp", [
-        'ui.router'
+        'ui.router',
+        'homeModule'
     ]);
     return myApp;
 });

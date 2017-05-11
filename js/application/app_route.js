@@ -9,8 +9,7 @@ define(['app'],function (app) {
                 // abstract: true,
                 url: "/home",
                 templateUrl: "html/home.html",
-                // template:"<div>aaaa</div>"
-                // controller: 'homeCtrl'
+                controller: 'homeCtrl'
             })
             .state("background", {
                 url: "/background",

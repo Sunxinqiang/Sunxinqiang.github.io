@@ -14,7 +14,9 @@ requirejs.config({
         angular: 'public/angular',
         ui_router: 'public/angular-ui-router',
         app_route: 'application/app_route',
-        app: 'application/app'
+        app: 'application/app',
+
+        home: 'home/module'
     },
     shim: {
         'angular': {
@@ -35,7 +37,8 @@ requirejs.config({
 });
 
 // Start the main app logic.
-require(['ready','angular', 'ui_router', 'app_route','app'],
+require(['ready','angular', 'ui_router', 'app_route','app','home'],
     function(ready,angular) {
         angular.bootstrap(document, ['myApp']);
+        document.body.addEventListener('touchstart', function(){ });
     });

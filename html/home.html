@@ -37,33 +37,17 @@
     </div>
 
     <div class="menu_left">
-        <div>
-            <h3>JavaScript</h3>
+        <div ng-repeat="menu in home.leftData">
+            <h3 ng-bind="menu.title">JavaScript</h3>
             <ul>
-                <li>原型</li>
-                <li>闭包</li>
-                <li>作用域</li>
+                <li ng-repeat="list in menu.val" ng-bind="list">原型</li>
             </ul>
         </div>
-        <div>
-            <h3>JavaScript</h3>
-            <ul>
-                <li>原型</li>
-                <li>闭包</li>
-                <li>作用域</li>
-            </ul>
-        </div>
-        <div>
-            <h3>JavaScript</h3>
-            <ul>
-                <li>原型</li>
-                <li>闭包</li>
-                <li>作用域</li>
-            </ul>
-        </div>
+       
     </div>
     <div class="page_content">
         <div class="content_data">
+            {{val}}
             快速学习：凡是项目设计的新技术，我都会很快学完并掌握
             完美主义：代码一定要对齐，代码看着一定要一目了然，该有的标点符号一定要有，不喜欢省略。
             掌握技能：
