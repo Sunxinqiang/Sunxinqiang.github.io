@@ -13,7 +13,8 @@ requirejs.config({
         ready: 'public/ready',
         angular: 'public/angular',
         ui_router: 'public/angular-ui-router',
-        app_route: 'application/app_route'
+        app_route: 'application/app_route',
+        app: 'application/app'
     },
     shim: {
         'angular': {
@@ -34,7 +35,7 @@ requirejs.config({
 });
 
 // Start the main app logic.
-require(['ready','angular', 'ui_router', 'app_route'],
+require(['ready','angular', 'ui_router', 'app_route','app'],
     function(ready,angular) {
         angular.bootstrap(document, ['myApp']);
     });
