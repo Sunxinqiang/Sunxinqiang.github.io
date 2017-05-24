@@ -18,16 +18,21 @@ define(['app'],function (app) {
             })
             .state("tabs", {
                 url: "/tabs",
-                templateUrl: "module/tabs.html"
+                templateUrl: "html/tabs.html",
+                controller: 'tabCtrl'
             })
             .state("tabs.index", {
                 url:"/index",
-                templateUrl: "module/tab.index/index.html",
-                controller:'IndexCtrl'
+                templateUrl: "html/tabs.index.html"
+                // controller:'IndexCtrl'
             })
             .state("tabs.view", {
                 url:"/view",
-                templateUrl: "module/tab.view/view.html"
+                templateUrl: "html/tabs.view.html"
+            })
+            .state("tabs.item3", {
+                url:"/item3",
+                templateUrl: "html/tabs.item3.html"
             })
             .state("single", {
                 url:"/single",

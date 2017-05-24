@@ -1,0 +1,27 @@
+<div class="tab_main">
+    <div class="tab_left">
+        <ul>
+            <li ng-click="tabs.goItem('index')" ng-class="{true:'tab_left_choose',false:''}[chooseNow=='index']">item-1</li>
+            <li ng-click="tabs.goItem('view')" ng-class="{true:'tab_left_choose',false:''}[chooseNow=='view']">item-2</li>
+            <li ng-click="tabs.goItem('item3')" ng-class="{true:'tab_left_choose',false:''}[chooseNow=='item3']">item-3</li>
+            <li>item-4</li>
+            <li>item-5</li>
+            <li>item-6</li>
+            <li>item-7</li>
+            <li>item-8</li>
+            <li>item-9</li>
+            <li>item-10</li>
+        </ul>
+    </div>
+    <div class="tab_content">
+        <div class="tab_titles">
+            <div ng-repeat="title in tabList"
+                 ng-class="{true:'tab_choose',false:''}[chooseNow==title]"
+                 ng-click="tabs.titleClick(title)"
+            ><span ng-bind="title">标题一</span><i ng-click="tabs.close(title,$event)">x</i></div>
+        </div>
+        <div class="tab_detail" ui-view="">
+            <span>请选择左侧按钮 只有前三个有点击事件</span>
+        </div>
+    </div>
+</div>

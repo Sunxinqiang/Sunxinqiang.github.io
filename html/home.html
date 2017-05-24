@@ -7,6 +7,8 @@
             <li>爱好</li>
         </ul>
     </div>
+    {{aa}}
+
     <div class="head_pic">
         <div class="header_down">
             <div class="down">
@@ -35,31 +37,31 @@
             </div>
         </div>
     </div>
+    <div class="content">
+        <div class="menu_left">
+            <div ng-repeat="menu in home.leftData">
+                <h3 ng-bind="menu.title">JavaScript</h3>
+                <ul>
+                    <li ng-repeat="list in menu.val" ng-bind="list.state" ui-sref="{{list.url}}"></li>
+                </ul>
+            </div>
 
-    <div class="menu_left">
-        <div ng-repeat="menu in home.leftData">
-            <h3 ng-bind="menu.title">JavaScript</h3>
-            <ul>
-                <li ng-repeat="list in menu.val" ng-bind="list">原型</li>
-            </ul>
         </div>
-       
-    </div>
-    <div class="page_content">
-        <div class="content_data">
-            {{val}}
-            快速学习：凡是项目设计的新技术，我都会很快学完并掌握
-            完美主义：代码一定要对齐，代码看着一定要一目了然，该有的标点符号一定要有，不喜欢省略。
-            掌握技能：
-            1.熟练使用java Spring框架编写接口
-            2.熟练使用MySql数据库 各种增删改查
-            3.熟悉Tomcat启动项目，常见问题的处理
-            4.掌握Jquery 用的比较多，有一年的使用经验
-            5.熟悉Linux 数据库安装，Tomcat发布服务，熟悉常用指令
-            6.掌握Angular 近期的项目都用angular编写，也有快一年的使用经验了
-            7.熟练使用Cordova 打包用包括Android和IOS
-            8.熟悉Android 熟悉Android项目结构 可以写简单的APP
+        <div class="page_content">
+            <div class="content_data">
+                <p>快速学习：凡是项目设计的新技术，我都会很快学完并掌握</p>
+                <p>完美主义：代码一定要对齐，代码看着一定要一目了然，该有的标点符号一定要有，不喜欢省略。</p>
+                <p>掌握技能：<p>
+                <p>1.熟练使用java Spring框架编写接口<p>
+                <p>2.熟练使用MySql数据库 各种增删改查</p>
+                <p>3.熟悉Tomcat启动项目，常见问题的处理</p>
+                <p>4.掌握Jquery 用的比较多，有一年的使用经验</p>
+                <p>5.熟悉Linux 数据库安装，Tomcat发布服务，熟悉常用指令</p>
+                <p>6.掌握Angular 近期的项目都用angular编写，也有快一年的使用经验了</p>
+                <p>7.熟练使用Cordova 打包用包括Android和IOS</p>
+                <p>8.熟悉Android 熟悉Android项目结构 可以写简单的APP</p>
 
+            </div>
         </div>
     </div>
 </div>

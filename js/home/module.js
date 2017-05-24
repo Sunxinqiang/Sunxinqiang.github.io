@@ -3,14 +3,24 @@
  */
 define(['angular'],function (angular) {
     var module = angular.module('homeModule',[]);
-    module.controller('homeCtrl',['$scope',function($scope){
-        $scope.val = 123123;
+    module.controller('homeCtrl',['$rootScope','$scope',
+    function($rootScope,$scope){
+
+        $scope.val = '';
         $scope.home = {
             leftData:[
-                {title:'JavaScript',val:['原型','闭包','作用域']},
-                {title:'Angular',val:['$scope','$$parse']}
-            ]
-        }
-    }]);
+                    {title:'JavaScript',val:[
+                            {state:'原型',url:""},
+                            {state:'闭包',url:""},
+                            {state:'作用域',url:""}]},
+                    {title:'Angular',val:[
+                            {state:'$scope',url:""},
+                            {state:'$$parse',url:""},
+                            {state:'页签test',url:"tabs"}
+                    ]}
+                ]
+            }
+        }]);
     return module;
 });
+
