@@ -16,7 +16,8 @@ define(['angular'],function (angular) {
                     {title:'Angular',val:[
                             {state:'$scope',url:""},
                             {state:'$$parse',url:""},
-                            {state:'页签test',url:"tabs"}
+                            {state:'页签test',url:"tabs"},
+                            {state:'timer',url:'timer'}
                     ]}
                 ]
             }

@@ -34,9 +34,10 @@ define(['app'],function (app) {
                 url:"/item3",
                 templateUrl: "html/tabs.item3.html"
             })
-            .state("single", {
-                url:"/single",
-                templateUrl: "module/single/single.html"
+            .state("timer", {
+                url:"/timer",
+                templateUrl: "html/timer.html",
+                controller: 'timerCtrl'
             });
         $urlRouterProvider.otherwise('/home');
     });

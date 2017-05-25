@@ -1,0 +1,16 @@
+.timer {
+    color: #666666;
+    margin-bottom:10px;
+}
+.inner {
+    display: inline-block;
+    width: 16px;
+    padding:1px;
+    text-align: center;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    background-color: #666;
+    color: #fff;
+    margin: 0 1px;
+}
