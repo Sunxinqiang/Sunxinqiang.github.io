@@ -97,8 +97,8 @@ define(['angular'], function (angular) {
             }
 
         var now = new Date();
-        getTimer(now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate()+' 00:00:00',
-            now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate()+' 23:59:59');
+        getTimer(now.getFullYear()+'/'+(now.getMonth()+1)+'/'+now.getDate()+' 00:00:00',
+            now.getFullYear()+'/'+(now.getMonth()+1)+'/'+now.getDate()+' 23:59:59');
     }]);
     return module;
 });
