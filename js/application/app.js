@@ -6,7 +6,8 @@ define(['angular'],function (angular) {
         'ui.router',
         'homeModule',
         'tabModule',
-        'timerModule'
+        'timerModule',
+        'inputsModule'
     ]);
     return myApp;
 });

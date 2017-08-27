@@ -38,6 +38,10 @@ define(['app'],function (app) {
                 url:"/timer",
                 templateUrl: "html/timer.html",
                 controller: 'timerCtrl'
+            }).state("inputs", {
+                url:"/inputs",
+                templateUrl: "html/inputs.html",
+                controller: 'inputsCtrl'
             });
         $urlRouterProvider.otherwise('/home');
     });

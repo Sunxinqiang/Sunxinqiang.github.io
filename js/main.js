@@ -9,10 +9,12 @@ requirejs.config({
         ui_router: 'public/angular-ui-router',
         app_route: 'application/app_route',
         app: 'application/app',
+        app_run: 'application/app_run',
 
         home: 'home/module',
         tabs: 'tabs/module',
-        timer: 'timer/module'
+        timer: 'timer/module',
+        inputs: 'inputs/module'
     },
     shim: {
         'angular': {
@@ -27,7 +29,7 @@ requirejs.config({
     }
 });
 
-require(['ready','angular', 'ui_router', 'app_route','app','home','tabs','timer'],
+require(['ready','angular', 'ui_router', 'app_route','app','app_run','home','tabs','timer','inputs'],
     function(ready,angular) {
         angular.bootstrap(document, ['myApp']);
         document.body.addEventListener('touchstart', function(){ });
