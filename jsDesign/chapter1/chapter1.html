@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../js/lib/monokai-sublime.css" id="codeStyle">
+    <link rel="stylesheet" href="chapter1.css">
+    <script src="../../js/lib/highlight.pack.js"></script>
+
+    <title>chapter1</title>
+</head>
+<body>
+
+<div class="main">
+    <div class="left">
+        <div class="p10"><input type="text"></div>
+        <div class="p10">
+            <div><a href="">第一章</a></div>
+            <div><a href="../chapter11/index.html">第十一章，模板方法模式</a></div>
+        </div>
+    </div>
+    <div class="right">
+        <section>
+            <div class="title">1.对象继承</div>
+            <div class="content">
+                <pre>
+                    <code class="javascript">
+    //方法1
+    function cloneOne(obj){
+        var tempObj = function(){};
+        tempObj.prototype = obj;
+        return new tempObj();
+    }
+    //方法2 新版浏览器
+    function cloneTwo(obj){
+        return Object.create(obj);
+    }
+    //综合方法
+    Object.create = Object.create || function( obj ){
+        var F = function(){};
+        F.prototype = obj;
+        return new F();
+    }
+                    </code>
+                </pre>
+            </div>
+        </section>
+        <section>
+            <div class="title"></div>
+            <div class="content"></div>
+        </section>
+    </div>
+</div>
+<script src="chapter1.js"></script>
+</body>
+</html>

@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>fillStyle and stroke</title>
+	<style>
+		body {
+			/*重置计数器*/
+			counter-reset: count;
+		}
+		.div-content {
+			float: left;
+			margin: 5px;
+			box-shadow: 2px 2px 10px 2px #ddd;
+		}
+		.div-title {
+			max-width: 150px;
+			word-break:keep-all;           /* 不换行 */
+			white-space:nowrap;          /* 不换行 */
+			overflow:hidden;               /* 内容超出宽度时隐藏超出部分的内容 */
+			text-overflow:ellipsis;         /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+			text-align: center;
+			font-size: 12px;
+			color: #666;
+			border-top: 1px solid #ddd;
+			
+		}
+		.div-title:before {
+			/*计数器加1 没写数字 默认1*/
+			counter-increment: count;
+			/*计数器显示*/
+			content: counter(count)'. ';
+		}
+		canvas {
+			/*这样可以去掉canvas和下面div之间的间距 好神奇*/
+			display: block;
+		}
+	</style>
+</head>
+<body>
+</body>
+<script>
+	function createCanvasContext(title,isCanvas,width,height) {
+		var width = width || 150;
+		var height = height || 150;
+		var div = document.createElement('div');
+		div.className = 'div-content';
+
+		var divTitle = document.createElement('div');
+		divTitle.className = 'div-title';
+		divTitle.innerHTML = title;
+
+		var c = document.createElement('canvas');
+		c.width = width;
+		c.height = height;
+
+		var body = document.getElementsByTagName('body')[0];
+		
+		div.appendChild(c);
+		div.appendChild(divTitle);
+		body.appendChild(div);
+		return isCanvas?c:c.getContext('2d');
+	}
+</script>
+<script>
+	/**
+	 * 背景
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-04
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx1 = createCanvasContext('纯色');
+		ctx1.fillStyle = '#009900';
+		ctx1.fillRect(0,0,150,150);
+	}()
+	/**
+	 * 线性渐变 两点之间的渐变
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-04
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx1 = createCanvasContext('线性渐变');
+		var gradient = ctx1.createLinearGradient(0,0,150,0);
+		gradient.addColorStop(0,'black');
+		gradient.addColorStop(0.6,'#55dd55');
+		gradient.addColorStop(1,'yellow');
+		ctx1.fillStyle = gradient;
+		ctx1.fillRect(0,0,150,150);
+
+		var ctx2 = createCanvasContext('线性渐变-斜');
+		var gradient2 = ctx2.createLinearGradient(0,0,150,150);
+		gradient2.addColorStop(0,'black');
+		gradient2.addColorStop(1,'red');
+		ctx2.fillStyle = gradient2;
+		ctx2.fillRect(0,0,150,150);
+	}()
+
+	/**
+	 * 放射渐变 两个圆之间的渐变
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-04
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx = createCanvasContext('放射渐变');
+		var radia = ctx.createRadialGradient(75,75,5,75,75,75);
+		radia.addColorStop(0,'black');
+		radia.addColorStop(0.5,'green');
+		radia.addColorStop(1,'red');
+		ctx.fillStyle = radia;
+		ctx.fillRect(0,0,150,150);
+	}()
+	
+	/**
+	 * 图案 样式 应该是设置不了背景图片大小
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-04
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var img1 = document.createElement('img');
+		img1.onload = function(){
+			var ctx = createCanvasContext('图案img元素 repeat-x');
+			var pattern = ctx.createPattern(img1,'repeat-x');
+			ctx.fillStyle = pattern;
+			ctx.fillRect(0,0,150,150);
+		}
+		img1.src = '../img/4.jpg';
+
+		var img2 = new Image();
+		img2.onload = function(){
+			var ctx = createCanvasContext('图案image对象repeat-y');
+			var pattern = ctx.createPattern(img2,'repeat-y');
+			ctx.fillStyle = pattern;
+			ctx.fillRect(0,0,150,150);
+		}
+		img2.src = '../img/4.jpg';
+	}()
+	//-------------------------------------------------------
+	/**
+	 * stroke
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-04
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var img1 = document.createElement('img');
+		img1.onload = function(){
+			var ctx = createCanvasContext('stroke图案 repeat');
+			var pattern = ctx.createPattern(img1,'repeat');
+			ctx.strokeStyle = pattern;
+			ctx.lineWidth = 10;
+			ctx.strokeRect(0,0,150,150);
+		}
+		img1.src = '../img/4.jpg';
+
+		var ctx2 = createCanvasContext('stroke文字');
+		ctx2.font = "24px Verdana";
+
+		var linear = ctx2.createLinearGradient(0,0,150,0);
+		linear.addColorStop(0,'red');
+		linear.addColorStop(0.5,'green');
+		linear.addColorStop(1,'black');
+
+		ctx2.strokeStyle = linear;
+		ctx2.strokeText('Hello World',5,85);
+	}()
+	//----------------------------------------------------
+	/**
+	 * lineCap 末端线帽
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-04
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx = createCanvasContext('线帽-lineCap');
+		ctx.lineWidth = '10';
+		//默认 无线帽
+		ctx.lineCap = 'butt';
+		ctx.beginPath();
+		ctx.moveTo(10,40);
+		ctx.lineTo(140,40);
+		ctx.stroke();
+		//末端添加圆形线帽
+		ctx.lineCap = 'round';
+		ctx.beginPath();
+		ctx.moveTo(10,80);
+		ctx.lineTo(140,80);
+		ctx.stroke();
+		//末端添加正方形线帽。
+		ctx.lineCap = 'square';
+		ctx.beginPath();
+		ctx.moveTo(10,120);
+		ctx.lineTo(140,120);
+		ctx.stroke();
+	}()
+	/**
+	 * lineJoin 折点样式
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-04
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx = createCanvasContext('折点-lineJoin');
+		ctx.lineWidth = 15;
+
+		//默认
+		ctx.lineJoin = 'miter';
+		ctx.beginPath();
+		ctx.moveTo(10,40);
+		ctx.lineTo(75,10);
+		ctx.lineTo(140,40);
+		ctx.stroke();
+
+		ctx.lineJoin = 'bevel';
+		ctx.beginPath();
+		ctx.moveTo(10,80);
+		ctx.lineTo(75,40);
+		ctx.lineTo(140,80);
+		ctx.stroke();
+
+		ctx.lineJoin = 'round';
+		ctx.beginPath();
+		ctx.moveTo(10,120);
+		ctx.lineTo(75,80);
+		ctx.lineTo(140,120);
+		ctx.stroke();
+	}()
+	/**
+	 * 斜接长度=内角到外角距离，超过miterLimit,
+	 * 折点样式就由miter变成bevel 平角，只在折点
+	 * 样式为miter时生效
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-04
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx = createCanvasContext('斜接长度-miterLimit');
+		ctx.lineWidth = 15;
+		ctx.lineJoin="miter";
+
+		ctx.miterLimit = 9;//未超过
+		ctx.beginPath();
+		ctx.moveTo(10,10);
+		ctx.lineTo(90,20);
+		ctx.lineTo(10,30);
+		ctx.stroke();
+
+		ctx.miterLimit = 8;//超过长度
+		ctx.beginPath();
+		ctx.moveTo(10,60);
+		ctx.lineTo(90,70);
+		ctx.lineTo(10,80);
+		ctx.stroke();
+
+		ctx.lineJoin = 'round';
+		ctx.miterLimit = 9;//失效
+		ctx.beginPath();
+		ctx.moveTo(10,110);
+		ctx.lineTo(90,120);
+		ctx.lineTo(10,130);
+		ctx.stroke();
+
+	}()
+	/**
+	 * 清除正方形
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-04
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx = createCanvasContext('清除正方形-clearRect');
+		ctx.fillStyle = 'green';
+		ctx.rect(0,0,150,150);
+		ctx.fill();
+
+		ctx.clearRect(10,10,50,50);
+		ctx.clearRect(90,10,50,50);
+		ctx.clearRect(10,120,130,10);
+	}()
+
+	//填充 画线
+	void function(){
+		var ctx = createCanvasContext('fill stroke');
+		ctx.fillStyle = 'red';
+		ctx.beginPath();
+		ctx.moveTo(0,0);
+		ctx.lineTo(50,0);
+		ctx.lineTo(50,50);//未闭合 会自动闭合
+		ctx.fill();
+
+		ctx.lineWidth = 5;
+		ctx.strokeStyle = 'green'
+		ctx.lineCap = 'round';
+		ctx.lineJoin = 'bevel'
+		ctx.beginPath();
+		ctx.moveTo(80,80);
+		ctx.lineTo(80,130);
+		ctx.lineTo(130,130);//未闭合 不会自动闭合
+		// ctx.closePath(); 可手动闭合
+		ctx.stroke();
+	}()
+
+	/**
+	 * 一旦剪切了某个区域，则所有之后的绘图都会被限制在被剪切的区域内
+	 * .5可去毛边
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-04
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx = createCanvasContext('剪裁画布-clip');
+		// ctx.globalAlpha = 1;
+		ctx.rect(50.5,20.5,50,50);
+		ctx.stroke();
+		ctx.fillStyle = 'red';
+		ctx.fillRect(40,10,20,20);
+
+
+		// ctx.beginPath();
+		// ctx.moveTo(0,0);
+		// ctx.lineTo(150,0);
+		// ctx.lineTo(150,150);
+		// ctx.lineTo(0,150);
+		ctx.rect(50.5,90.5,50,50);//必须有线框 不能直接填充边框颜色或填充色,lineTo 或者 rect 直接填充不能剪裁
+		ctx.stroke();
+		ctx.save();//保存当前画布
+		ctx.clip();//按照上一个 rect或者lineTo剪裁画布
+		ctx.fillRect(40,80,20,20);
+
+		ctx.restore();//恢复保存的画布
+		ctx.strokeStyle = 'green';
+		ctx.lineWidth = 2;
+		ctx.rect(50.5,90.5,50,50);
+		ctx.strokeRect(40,80,20,20);
+
+	}()
+	/**
+	 * 二次贝塞尔曲线-quadraticCurveTo
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-04
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx = createCanvasContext('二次贝塞尔曲线');
+		ctx.beginPath();
+		ctx.moveTo(0,75.5);
+		ctx.lineTo(150,75.5);
+		ctx.stroke();
+
+		ctx.moveTo(75.5,0);
+		ctx.lineTo(75.5,150);
+		ctx.stroke();
+
+		ctx.moveTo(30,75);
+		//控制点 结束点
+		ctx.quadraticCurveTo(40,140,120,75);
+		ctx.stroke();
+
+		ctx.font = "12px PingFang";
+		ctx.fillRect(38.5,138.5,5,5);
+		ctx.fillText('控制点',50,140)
+
+		ctx.fillRect(118.5,72.5,5,5);
+		ctx.fillText('结束点',110,65)
+	}()
+	/**
+	 * 三次次贝塞尔曲线-bezierCurveTo
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-04
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx = createCanvasContext('三次贝塞尔曲线');
+		ctx.beginPath();
+		ctx.moveTo(0,75.5);
+		ctx.lineTo(150,75.5);
+		ctx.stroke();
+
+		ctx.moveTo(75.5,0);
+		ctx.lineTo(75.5,150);
+		ctx.stroke();
+
+		ctx.moveTo(30,75);
+		//控制点 结束点
+		ctx.bezierCurveTo(10,100,140,100,120,75);
+		ctx.stroke();
+
+		ctx.font = "12px PingFang";
+		ctx.fillRect(10,100,5,5);
+		ctx.fillText('控制点1',10,120)
+
+		ctx.fillRect(140,100,5,5);
+		ctx.fillText('控制点2',100,120)
+
+		ctx.fillRect(118.5,72.5,5,5);
+		ctx.fillText('结束点',110,65)
+	}()
+
+	/**
+	 * 默认顺时针，
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-04
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx = createCanvasContext('圆弧-arc');
+		ctx.beginPath();
+		ctx.arc(75,35.5,30,0,2*Math.PI);
+		ctx.strokeStyle = 'red';
+		ctx.stroke();
+
+		ctx.beginPath();//要改变颜色 重新beginPath
+		ctx.moveTo(75,110);
+		ctx.arc(75,110,30,0,1.5*Math.PI,true);
+		ctx.closePath();
+		ctx.strokeStyle = 'green';
+		ctx.lineWidth = 5;
+		ctx.stroke();
+
+		ctx.beginPath();
+		//横
+		ctx.moveTo(20,110.5);
+		ctx.lineTo(130,110.5);
+		//纵
+		ctx.moveTo(75.5,75);
+		ctx.lineTo(75.5,130);
+		ctx.strokeStyle = 'black';
+		ctx.lineWidth = 1;
+		ctx.stroke();
+
+		ctx.fillText('0',135,110.5),
+		ctx.fillText('π/2',75.5,140);
+
+	}()
+	/**
+	 * arcTo(起始点x,起始点y，终点x，终点y，半径r)
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-04
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx = createCanvasContext('切线弧-acrTo');
+		ctx.beginPath();
+		ctx.moveTo(40,20);
+		ctx.lineTo(80,20);
+		ctx.arcTo(110,20,110,50,30);
+		ctx.lineTo(110,130);
+		ctx.stroke();
+	}()
+	/**
+	 * 判断点是否在路径里
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-05
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx = createCanvasContext('isPointInPath');
+		ctx.beginPath();
+		ctx.rect(35,35,75,75);
+		ctx.stroke();
+		if(ctx.isPointInPath(50,50)){
+		}
+		ctx.fillStyle = 'red';
+		ctx.fillRect(50,50,5,5);
+		var isIn = ctx.isPointInPath(50,50);
+		ctx.fillText(isIn ,50,70);
+
+		ctx.fillStyle = 'black';
+		ctx.fillRect(20,20,5,5);
+		var isIn2 = ctx.isPointInPath(20,20);
+		ctx.fillText(isIn2,30,20);
+
+	}()
+	/**
+	 * 在原来基础上进行尺寸缩放
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-05
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx = createCanvasContext('缩放尺寸-scale');
+		ctx.strokeRect(10,10,20,20);
+		ctx.scale(1.4,1.4);
+		ctx.strokeRect(10,10,20,20);
+		ctx.scale(1.4,1.4);
+		ctx.strokeRect(10,10,20,20);
+		ctx.scale(1.4,1.4);
+		ctx.strokeRect(10,10,20,20);
+		ctx.scale(1.4,1.4);
+		ctx.strokeRect(10,10,20,20);
+	}()
+	/**
+	 * 旋转 设置中心点方法如下
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-05
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx = createCanvasContext('旋转-rotate');
+		ctx.fillRect(50,50,50,50);
+		var linear = ctx.createLinearGradient(50,50,100,50);
+		linear.addColorStop(0,'red');
+		linear.addColorStop(0.5,'green');
+		linear.addColorStop(1,'blue');
+		ctx.fillStyle = linear;
+
+		ctx.translate(75,75);//移动画布原点 到图片中心点
+		ctx.rotate(45*Math.PI/180);//在中心点旋转
+		ctx.translate(-75,-75);//画布原点移动回去
+
+		ctx.fillRect(50,50,50,50);
+	}()
+	/**
+	 * transform会在现基础上进行变幻
+	 * setTransform会相对初始状态进行变幻
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-05
+	 * @return   {[type]}   [description]
+	 */
+	void function() {
+		var ctx = createCanvasContext('综合变幻-transform');
+		ctx.fillStyle = '#ddd';
+		ctx.fillRect(0,0,50,50);
+		ctx.transform(1.5,0.5,-0.5,1.5,30,30);
+		ctx.fillStyle = 'yellow';
+		ctx.fillRect(0,0,50,50);
+		ctx.transform(1.5,0.5,-0.5,1.5,30,30);
+		ctx.fillStyle = 'red';
+		ctx.fillRect(0,0,50,50);
+		//相对初始 覆盖掉yellow
+		ctx.setTransform(1.5,0.5,-0.5,1.5,30,30);
+		ctx.fillStyle = 'blue';
+		ctx.fillRect(0,0,50,50);
+	}()
+	/**
+	 * 绘制图片
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-05
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx = createCanvasContext('绘制图片-drawImage');
+		var img = new Image();
+		img.onload = function(){
+			ctx.drawImage(img,0,0,150,150);
+		}
+		img.src = '../img/1.jpg';
+	}()
+	/**
+	 * 图片剪裁 （剪裁位置 放置位置）
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-05
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx = createCanvasContext('图片剪裁-drawImage');
+		var img = new Image();
+		img.onload = function(){
+			//是在原图基础上进行剪裁 然后放到画布指定位置显示
+			ctx.drawImage(img,150,60,150,150,0,0,150,150);
+		}
+		img.src = '../img/1.jpg';
+	}()
+
+	/**
+	 * 视频
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-05
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var c = createCanvasContext('视频-drawImage',true);
+		var ctx = c.getContext('2d');
+		var video = document.createElement('video');
+		video.src = '../video/mov_bbb.mp4';
+		function play(){
+			var intervalId = setInterval(function(){
+				ctx.drawImage(video,0,0,150,100);
+			},20);
+			setTimeout(function(){
+				clearInterval(intervalId);
+			},10000);
+		}
+		ctx.textAlign = 'center';
+		ctx.fillText('点击播放',75,120);
+		play();
+		c.onclick = function(){
+			play();
+			video.play();
+		};
+	}()
+	/**
+	 * 像素
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-05
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx = createCanvasContext('像素-data');
+		var imgData = ctx.createImageData(60,60);
+		var len = imgData.data.length;
+		console.log(len)
+		for(var i=0;i<len;i+=4){
+			imgData.data[i+0] = i*i%255;//R
+			imgData.data[i+1] = (i*(i-1))%255;	//G
+			imgData.data[i+2] = 0;	//B
+			imgData.data[i+3] = 255;//A
+		}
+		ctx.putImageData(imgData,10,10);
+
+		var imgData2 = ctx.getImageData(10,10,20,20);
+		ctx.putImageData(imgData2,110,50);
+
+		var img = new Image();
+		img.onload = function(){
+			ctx.drawImage(img,150,60,150,150,10,80,60,60);
+			var img2 = ctx.getImageData(40,100,20,20);
+			ctx.putImageData(img2,110,120,0,0,10,20);//后面几个参数 是 xy宽高 相当于控制显示区域
+		}
+		img.src = '../img/1.jpg';
+	}()
+	/**
+	 * 颜色反转
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-05
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx = createCanvasContext('颜色反转');
+		var img = new Image();
+		img.onload = function(){
+			ctx.drawImage(img,0,0,1024,1024,0,0,150,150);
+			var imgData = ctx.getImageData(75,0,75,150);
+			for(var i=0;i<imgData.data.length;i+=4){
+				var a = imgData.data;
+				a[i+0] = 255-a[i+0];
+				a[i+1] = 255-a[i+1];
+				a[i+2] = 255-a[i+2];
+				a[i+3] = 255;
+			}
+			ctx.putImageData(imgData,75,0);
+		}
+		img.src = '../img/3.jpg';
+	}()
+	/**
+	 * 透明度
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-05
+	 * @return   {[type]}   [description]
+	 */
+	void function(){
+		var ctx = createCanvasContext('透明度-globalAlpha');
+		ctx.globalAlpha = 0.5;
+		ctx.fillStyle = 'red';
+		ctx.fillRect(50,50,40,40);
+		ctx.fillStyle = 'green';
+		ctx.fillRect(60,70,40,40);
+		ctx.fillStyle = 'blue';
+		ctx.fillRect(70,60,40,40);
+	}()
+	/**
+	 * 效果很多种 详见mdn:
+	 * https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Compositing
+	 * @Author   SunXinqang
+	 * @DateTime 2017-11-05
+	 * @return   {[type]}   [description]
+	 */
+	void function() {
+		var ctx = createCanvasContext('覆盖-globalCompositeOperation');
+		ctx.fillStyle = 'red';
+		ctx.fillRect(10,10,40,40);
+		ctx.globalCompositeOperation = 'destination-over';//默认
+		ctx.fillStyle = 'green';
+		ctx.fillRect(20,20,40,40);
+	}()
+
+	void function() {
+		var c = createCanvasContext('像素文字',true);
+		var ctx = c.getContext('2d');
+		ctx.fillStyle = '#FF0000';
+		// ctx.font = "bold 12px Verdana";
+		ctx.fillText('H',75,75);
+
+		var img64 = c.toDataURL();
+		var img = new Image();
+		img.onload = function(){
+			//是在原图基础上进行剪裁 然后放到画布指定位置显示
+			// ctx.drawImage(img,74.5,67,8,9,0,0,150,150);
+			ctx.drawImage(img,0,0,150,150,0,0,150,150);
+			// var imgData = ctx.getImageData(74.5,67,7,7);
+			var imgData = ctx.getImageData(0,0,150,150);
+			var points = new Array();
+			var yJudge = 0;
+			var xJudge = 0;
+
+			// var xMax = 0;
+			// var yMax = 0;
+
+			var xMin = 150;
+			var yMin = 150;
+
+			for(var i=0;i<imgData.data.length;i+=4){
+				var a = imgData.data;
+				// a[i+0] = 255-a[i+0];
+				// a[i+1] = 255-a[i+1];
+				// a[i+2] = 255-a[i+2];
+				// a[i+3] = 255;
+				var r = a[i+0];
+				var g = a[i+1];
+				var b = a[i+2];
+
+				if(r==255){
+                    var x = (i/4)%150;
+                    var y = i/(4*150);
+                    //宽度是取余数算出来的 没有误差
+                    //高度是除出来的 有误差 在1px内 是一个高度
+                    //高度修正
+                    if((y - yJudge)<1){
+                    	y = yJudge;
+                    }
+                    yJudge = y;
+                    // xMax = Math.max(x,xMax);
+                    // yMax = Math.max(y,yMax);
+                    xMin = Math.min(x,xMin);
+                    yMin = Math.min(y,yMin);
+                    points.push(new position(x,y));
+                }
+			}
+			ctx.clearRect(0,0,c.width,c.height);
+			for(var i=0;i<points.length;i++){
+				points[i].x = points[i].x - xMin;
+				points[i].y = points[i].y - yMin;
+			}
+			var rWidth = 10;
+			for(var i=0;i<points.length;i++){
+				var x = points[i].x*rWidth;
+				var y = points[i].y*rWidth;
+				ctx.beginPath();
+				ctx.arc(x+20,y+20,rWidth/2,0,2*Math.PI);
+				ctx.fillStyle = 'red';
+				ctx.fill();
+			}
+			// ctx.putImageData(imgData,0,0);
+			
+			console.log(points)
+
+		}
+		img.src = img64;
+
+		function position  (x,y){
+                this.x = x;
+                this.y = y;
+            }
+	}()
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

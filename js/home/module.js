@@ -10,9 +10,8 @@ define(['angular'],function (angular) {
         $scope.home = {
             leftData:[
                     {title:'JavaScript',val:[
-                            {state:'原型',url:""},
-                            {state:'闭包',url:""},
-                            {state:'作用域',url:""}]},
+                            {state:'设计模式',url:""}
+                    ]},
                     {title:'Angular',val:[
                             {state:'$scope',url:""},
                             {state:'$$parse',url:""},
@@ -22,7 +21,14 @@ define(['angular'],function (angular) {
                     ]}
                 ]
             }
-        }]);
+        $scope.goJsDesign = function(){
+            location.href = 'jsDesign/chapter1/chapter1.html';
+        }
+        $scope.goCanvas = function(){
+            location.href = 'canvas/index.html';
+        }
+    }]);
+
     return module;
 });
 
