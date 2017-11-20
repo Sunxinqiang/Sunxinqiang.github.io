@@ -25,7 +25,7 @@ define(['angular'],function (angular) {
             location.href = 'jsDesign/chapter1/chapter1.html';
         }
         $scope.goCanvas = function(){
-            location.href = 'canvas/index.html';
+            location.href = 'canvas/view/index.html';
         }
     }]);
 
