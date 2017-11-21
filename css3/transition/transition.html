@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>transition</title>
+    <style>
+    body {
+        color: #fff;
+    }
+
+    .t-one {
+        width: 100px;
+        height: 100px;
+        margin: 10px;
+        background: blue;
+        transition: width 1s 1s, height 2s;
+        transition-timing-function: linear;
+    }
+
+    .t-one:hover {
+        width: 200px;
+        height: 200px;
+    }
+
+    .t-two {
+        width: 100px;
+        height: 100px;
+        margin: 10px;
+        background: green;
+        transition: width 2s cubic-bezier(.04, .96, .98, .06);
+    }
+
+    .t-two:hover {
+        width: 500px;
+    }
+
+    .t-three {
+    	width: 100px;
+        height: 100px;
+        margin: 10px;
+        background: blue;
+        transition: width 1s 1s , height 2s ;
+        transition-timing-function: linear;
+    }
+    .t-three:hover {
+    	width: 200px;
+        height: 200px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="t-one">多个属性 及 延时</div>
+    <div class="t-two">transition-timing-function</div>
+    <div class="t-three" id="t-three">transitioned</div>
+    <script>
+
+    var element = document.getElementById("t-three");
+    element.addEventListener("transitionend", showMessage, false);
+    var i = 0;
+    function showMessage(e) {
+    	console.log(e)
+        element.innerHTML = 'Transition 已完成'+i;
+        i++;
+    }
+    </script>
+</body>
+
+</html>
