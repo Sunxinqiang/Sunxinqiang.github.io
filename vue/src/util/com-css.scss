@@ -1,0 +1,137 @@
+@mixin font-dpr($font-size) {
+  font-size: $font-size;
+  [data-dpr="2"] & {
+    font-size: $font-size * 2;
+  }
+  [data-dpr="3"] & {
+    font-size: $font-size * 3;
+  }
+}
+
+@mixin css3($property, $value) {
+  @each $prefix in -webkit-,
+  -moz-,
+  -ms-,
+  -o-,
+  '' {
+    #{$prefix}#{$property}: $value;
+  }
+}
+
+//.scompop-tab-2:两个tab， .scompop-tab-3三个tab ，.scompop-tab-4：四个
+.head-bar {
+  padding: 5px;
+  border: none;
+  background-image: linear-gradient(0deg, #ddd, #ddd 50%, transparent 50%);
+  background-position: bottom;
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-color: #fff;
+  @for $j from 2 through 4 {
+    $green: #14ab12;
+    .scompop-tab-#{$j} {
+      position: relative;
+      width: 100%;
+      .c-tab-content {
+        width: 100%;
+        div {
+          text-align: center;
+          float: left;
+          width: percentage(1/$j);
+          font-size: 1rem;
+          line-height: 2.3rem;
+          color: #666;
+        }
+      }
+      .c-tab-line {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: percentage(1/$j);
+        border-bottom: 2px solid $green;
+        @include css3(transition, left 0.3s);
+      }
+      @for $i from 1 through $j {
+        &.c-tab-checked-#{$i} {
+          .c-tab-content {
+            div:nth-of-type(#{$i}) {
+              color: $green;
+            }
+          }
+          .c-tab-line {
+            left: percentage(1/$j)*($i - 1);
+          }
+        }
+      }
+    }
+  }
+}
+
+.clearfix {
+  zoom: 1; //ie6
+  &:after {
+    content: "\0020"; //空白字符
+    display: block;
+    height: 0;
+    clear: both;
+  }
+}
+
+.list {
+  position: relative;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 0;
+  margin-bottom: 20px;
+  &,* {
+  	// box-sizing: border-box;
+  }
+  .item {
+    border-color: #ddd;
+    background-color: #fff;
+    color: #444;
+    position: relative;
+    z-index: 2;
+    display: block;
+    margin: -1px;
+    padding: 16px;
+    border-width: 1px;
+    border-style: solid;
+    font-size: 16px;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    p {
+      color: #666;
+      font-size: 14px;
+      margin: 0 0 10px;
+      margin-bottom: 2px;
+    }
+  }
+  .item-thumbnail-left,
+  .item-thumbnail-left .item-content {
+    padding-top: 8px;
+    padding-left: 106px;
+    min-height: 100px;
+    padding-bottom: 0;
+  }
+
+  .item-thumbnail-left>img:first-child {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    max-width: 80px;
+    max-height: 80px;
+    width: 100%;
+    height: 100%;
+  }
+}
